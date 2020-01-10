@@ -1,6 +1,4 @@
-import requests
-
-from discopusher import Config
+from discopusher import Config, push
 
 class Hook:
     def __init__(self, path, app_config={}):
@@ -13,22 +11,13 @@ class Hook:
             'webhooks': []
         })
         self.config.save()
+        self.type = self.config.get('type')
 
     def __repr__(self):
         return '<{}: {}>'.format(
             self.__class__.__name__,
             self.name
         )
-
-    def push(self, content, webhook):
-        if isinstance(content, str):
-            content = [content]
-        for msg in content:
-            requests.post(webhook, json={
-                'content': msg,
-                'avatar_url': self.config.get('avatar_url'),
-                'username': self.config.get('username'),
-            })
 
     def handle(self):
         if self.config['type'] == 'twitter':
@@ -37,4 +26,4 @@ class Hook:
             for url in self.config['data']:
                 content = handler.handle(url)
                 for webhook in self.config['webhooks']:
-                    self.push(content, webhook)
+                    push(content, webhook, self.config)

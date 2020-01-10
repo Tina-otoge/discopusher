@@ -1,5 +1,6 @@
-/hooks/
+/cli/
 /data/
+/hooks/
 /.venv/
 __pycache__/
 *.toml
