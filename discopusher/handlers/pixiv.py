@@ -84,7 +84,7 @@ class PixivHandler:
                 if response.status_code != 200:
                     continue
                 ext = Path(url).suffix
-                files.append({'data': response.content, 'name': 'page{}.{}'.format(index, ext)})
+                files.append({'data': response.content, 'name': 'page{}{}'.format(index, ext)})
                 index += 1
             ret.append({'content': content, 'files': files})
         ret.reverse()
