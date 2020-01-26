@@ -49,7 +49,7 @@ class PixivHandler:
         for entry in results:
             print('Handling pixiv entry {}'.format(entry['id']))
             if self.age_filter != None:
-                if entry['age_limit'] == 'r18' and self.age_filter == 'safe':
+                if entry['age_limit'] in ['r18', 'r18-g'] and self.age_filter == 'safe':
                     print('skipping because currently in safe mode')
                     continue
                 if entry['age_limit'] == 'all-age' and self.age_filter == 'r18':
