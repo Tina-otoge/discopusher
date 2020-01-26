@@ -1,6 +1,6 @@
 from discord_webhook import DiscordWebhook
 
-from discopusher import Config
+from discopusher import Config, push
 
 class Hook:
     def __init__(self, path, app_config={}):
@@ -13,6 +13,7 @@ class Hook:
             'webhooks': []
         })
         self.config.save()
+        self.type = self.config.get('type')
 
     def __repr__(self):
         return '<{}: {}>'.format(
@@ -20,25 +21,13 @@ class Hook:
             self.name
         )
 
-    def push(self, content, webhook, files=[]):
-        if isinstance(content, str):
-            content = [content]
-        webhook = DiscordWebhook(url=webhook)
-        webhook.avatar_url = self.config.get('avatar_url')
-        webhook.username = self.config.get('username')
-        for file in files:
-            webhook.add_file(file=file['data'], filename=file['name'])
-        for msg in content:
-            webhook.content = msg
-            webhook.execute()
-
     def handle(self):
         if self.config['type'] == 'twitter':
             from discopusher.handlers import TwitterHandler
             handler = TwitterHandler(self.name, app_config=self.app_config)
             for url in self.config['data']:
                 content = handler.handle(url)
-                self.push(content, self.config['webhooks'])
+                push(content, self.config['webhooks'], self.config)
         if self.config['type'] == 'pixiv':
             from discopusher.handlers import PixivHandler
             handler = PixivHandler(self.name, app_config=self.app_config)
@@ -48,4 +37,4 @@ class Hook:
             for result in results:
                 if result is None:
                     continue
-                self.push(result['content'], self.config['webhooks'], files=result['files'])
+                self.push(result['content'], self.config['webhooks'], self.config, files=result['files'])

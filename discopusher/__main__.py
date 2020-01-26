@@ -1,10 +1,26 @@
 from pathlib import Path
+import sys, os
 
-from discopusher import Config, Hook
+from discopusher import Config, Hook, push
 
 def safe_mkdir(*args):
     for path in args:
         path.mkdir(parents=True, exist_ok=True)
+
+def handle_cli(hooks):
+    if 'webhook' in os.environ:
+        webhooks = [os.environ['webhook']]
+    else:
+        webhooks = [webhook for webhooks in [hook.config.get('webhooks') for hook in filter(lambda x: x.type == 'cli', hooks)]]
+    options = {
+        'avatar_url': os.environ.get('webhook_avatar'),
+        'username': os.environ.get('webhook_username')
+    }
+    for path in sys.argv[1:]:
+        with open(path) as f:
+            content = f.read()
+            for webhook in webhooks:
+                push(content, webhook, options)
 
 def main():
     config = Config('config.toml', write_defaults=True, defaults={
@@ -16,9 +32,11 @@ def main():
     hooks_dir = Path(config['hooks_dir'])
     data_dir = Path(config['data_dir'])
     safe_mkdir(hooks_dir, data_dir)
-    for path in hooks_dir.glob('*.toml'):
-        hook = Hook(path, app_config=config)
-        hook.handle()
+    hooks = [Hook(path, app_config=config) for path in hooks_dir.glob('*.toml')]
+    if len(sys.argv) > 1:
+        handle_cli(hooks)
+        return
+    map(lambda x: x.handle(), hooks)
 
 try:
     main()
