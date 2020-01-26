@@ -36,7 +36,8 @@ def main():
     if len(sys.argv) > 1:
         handle_cli(hooks)
         return
-    map(lambda x: x.handle(), hooks)
+    for hook in hooks:
+        hook.handle()
 
 try:
     main()

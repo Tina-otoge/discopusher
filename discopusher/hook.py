@@ -1,6 +1,7 @@
 from discord_webhook import DiscordWebhook
 
-from discopusher import Config, push
+from discopusher import Config
+from discopusher.push import push
 
 class Hook:
     def __init__(self, path, app_config={}):
@@ -38,4 +39,4 @@ class Hook:
             for result in results:
                 if result is None:
                     continue
-                self.push(result['content'], self.config['webhooks'], self.config, files=result['files'])
+                push(result['content'], self.config['webhooks'], self.config, files=result['files'])

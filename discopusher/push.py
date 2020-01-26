@@ -1,6 +1,6 @@
 from discord_webhook import DiscordWebhook
 
-def push(self, content, webhook, options={}, files=[]):
+def push(content, webhook, options={}, files=[]):
     if isinstance(content, str):
         content = [content]
     webhook = DiscordWebhook(url=webhook)
