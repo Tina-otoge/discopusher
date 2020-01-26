@@ -1,3 +1,6 @@
 #!/bin/bash
 
-python -m discopusher
+while true; do
+	./.venv/bin/python -m discopusher
+	sleep 1h
+done

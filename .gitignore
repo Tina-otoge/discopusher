@@ -1,4 +1,6 @@
 /cli/
+*.pyc
+/hooks/
 /data/
 /hooks/
 /.venv/

@@ -22,6 +22,7 @@ class Hook:
         )
 
     def handle(self):
+        print('handling {}'.format(self))
         if self.config['type'] == 'twitter':
             from discopusher.handlers import TwitterHandler
             handler = TwitterHandler(self.name, app_config=self.app_config)

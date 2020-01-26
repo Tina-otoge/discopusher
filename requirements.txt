@@ -1,3 +1,5 @@
 requests
 python-twitter
 toml
+discord_webhook
+pixivpy
