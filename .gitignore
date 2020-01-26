@@ -1,3 +1,4 @@
+*.pyc
 /hooks/
 /data/
 /.venv/

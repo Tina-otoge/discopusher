@@ -26,22 +26,22 @@ class PixivHandler:
 
     def handle(self, feed):
         if feed == 'followings':
-            data = self.api.me_following_works(image_sizes=['large'], include_stats=False)
+            data = self.api.me_following_works(image_sizes=['large', 'medium'], include_stats=False)
         elif feed == 'bookmarks':
             data = self.api.me_favorite_works()
         else:
-            return None, None
+            return []
         if data['status'] != 'success':
             print('invalid response')
             print('got:')
             print(data)
-            return None, None
+            return []
         results = data['response']
         save_data = self.data.get(feed, {'last_id': 0})
         print('latest id: {}'.format(save_data.get('last_id')))
         results = list(filter(lambda x: x['id'] > save_data.get('last_id'), results))
         if len(results) == 0:
-            return None, None
+            return []
         save_data['last_id'] = results[0]['id']
         self.data[feed] = save_data
         self.data.save()
@@ -50,8 +50,10 @@ class PixivHandler:
             print('Handling pixiv entry {}'.format(entry['id']))
             if self.age_filter != None:
                 if entry['age_limit'] == 'r18' and self.age_filter == 'safe':
+                    print('skipping because currently in safe mode')
                     continue
                 if entry['age_limit'] == 'all-age' and self.age_filter == 'r18':
+                    print('skipping because currently in r18')
                     continue
             content = '<https://www.pixiv.net/i/{}>'.format(entry['id'])
             content += '\n{} by {} ({})'.format(entry['title'], entry['user']['name'], entry['user']['account'])
