@@ -68,7 +68,7 @@ class PixivHandler:
                 work = work[0]
                 urls = [x['image_urls']['medium'] for x in work['metadata']['pages']]
                 if len(urls) > 4:
-                    content += '\n{} more pictures to not shown here'.format(len(urls) - 4)
+                    content += '\n{} more pictures not shown here'.format(len(urls) - 4)
                     urls = urls[:4]
             else:
                 if entry['width'] > 2000 or entry['height'] > 2000:
