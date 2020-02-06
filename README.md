@@ -45,3 +45,13 @@ done
 
 Example:
 `https://twitter.com/search?q=list%3Ashookaite%2Fvisual-artists%20filter%3Aimages%20-RT`
+
+Fields:
+- data: fills with search URLs
+
+### Pixiv
+- Supports **Feed** and **age filtering**
+
+Fields:
+- feed: only supported value as of now is "**followings**"
+- age_filter: supported values **safe** and **r18** (includes R-18G  too)
