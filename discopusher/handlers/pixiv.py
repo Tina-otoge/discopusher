@@ -55,7 +55,7 @@ class PixivHandler:
                 if entry['age_limit'] == 'all-age' and self.age_filter == 'r18':
                     print('skipping because currently in r18 mode')
                     continue
-            content = '<https://www.pixiv.net/i/{}>'.format(entry['id'])
+            content = '<https://www.pixiv.net/artworks/{}>'.format(entry['id'])
             content += '\n{} by {} ({})'.format(entry['title'], entry['user']['name'], entry['user']['account'])
             if entry['is_manga']:
                 print('it\'s a manga')
