@@ -57,6 +57,7 @@ class PixivHandler:
                     continue
             content = '<https://www.pixiv.net/artworks/{}>'.format(entry['id'])
             content += '\n{} by {} ({})'.format(entry['title'], entry['user']['name'], entry['user']['account'])
+            content += '\nTags: {}'.format(' '.join(entry['tags']))
             if entry['is_manga']:
                 print('it\'s a manga')
                 work = self.api.works(entry['id'])
