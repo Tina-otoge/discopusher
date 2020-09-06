@@ -30,7 +30,7 @@ class TwitterHandler:
 
     def get_name(self, url, type=None):
         type = type or self.get_type(url)
-        if type is 'search':
+        if type == 'search':
             return self.get_search_term(url)
 
     def get_search_term(self, url):
@@ -41,7 +41,7 @@ class TwitterHandler:
         name = self.get_name(url, type=type)
         data = self.data.get(name, {'last_id': 0})
         print('last id:', data['last_id'])
-        if type is 'search':
+        if type == 'search':
             results = self.api.GetSearch(
                 raw_query='q={}'.format(name),
                 since_id=data['last_id'],
