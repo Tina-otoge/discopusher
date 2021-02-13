@@ -1,3 +1,4 @@
+import time
 from pathlib import Path
 import sys, os
 
@@ -38,6 +39,7 @@ def main():
         return
     for hook in hooks:
         hook.handle()
+        time.sleep(.2)
 
 try:
     main()

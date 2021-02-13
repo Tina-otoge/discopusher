@@ -9,16 +9,15 @@ class PixivHandler:
         config_path = Path(app_config.get('handlers_config_dir', '.')) / 'pixiv.toml'
         data_path = Path(app_config.get('data_dir', './data/')) / '{}.toml'.format(name)
         self.config = Config(config_path, write_defaults=True, defaults={
-            'username': 'xxxx',
-            'password': 'xxxx',
+            'refresh': 'xxxx',
         })
         self.config.save()
         self.data = Config(data_path)
         self.age_filter = None
         self.api = PixivAPI()
-        if self.config.get('password'):
+        if self.config.get('refresh'):
             print('logging in to Pixiv...')
-            login_response = self.api.login(self.config['username'], self.config['password'])
+            login_response = self.api.auth(refresh_token=self.config['refresh'])
             print('logged in into account {0.name} ({0.account}) [{0.id}]'.format(login_response['response']['user']))
 
     def set_age_filter(self, filter):
