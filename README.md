@@ -1,3 +1,9 @@
+```
+```
+⚠️ Archived, replaced by https://github.com/tina-otoge/artcompanion
+```
+```
+
 # discopusher 🕺
 
 Easy triggers for Discord webhook
